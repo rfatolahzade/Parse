@@ -270,7 +270,7 @@ Lets create an index.html file on our new branch:
 ```bash
 git checkout gh-pages
 touch index.html
-echo "Hello!" >> index.html
+echo "Hello!" > index.html
 git add .
 git commit -m "A index html"
 git push
