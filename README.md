@@ -248,3 +248,20 @@ save the file and run helm install contains your values file:
 helm install parse . -f values.yaml
 kga
 ```
+
+Create a new branch for github pages:
+```bash
+#Create a new branch:
+git checkout --orphan gh-pages
+#We have to make it empty:
+git rm -rf .
+#Commit & Push the new branch:
+git commit --allow-empty -m "root commit"
+git push origin gh-pages
+#Chech the current branch:
+git branch
+#Switch to the branch:
+git checkout gh-pages
+#Switch to master branch:
+git checkout master
+```
