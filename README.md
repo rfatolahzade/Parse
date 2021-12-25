@@ -265,3 +265,13 @@ git checkout gh-pages
 #Switch to master branch:
 git checkout master
 ```
+
+Lets create an index.html file on our new branch:
+```bash
+git checkout gh-pages
+touch index.html
+echo "Hello from github pages!!!" >> index.html
+git add .
+git commit -m "A index html"
+git push
+```
