@@ -280,4 +280,9 @@ And then visit:
 ```bash
 https://rfinland.github.io/Parse/index.html
 #https://YOURGITHUBUSER.github.io/YOURPROJECT/index.html
+#OR just visit:
+https://rfinland.github.io/Parse/
 ```
+You should able to see what's happen in github actions on your repo
+
+Create specific action for HelmChart:
