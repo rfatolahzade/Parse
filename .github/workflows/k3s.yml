@@ -24,8 +24,8 @@ jobs:
       - name: Verify function of k8s, kubectl, and helm
         run: |
           echo "kubeconfig: $KUBECONFIG"
-          kubectl version
+          helm repo add Parse https://rfinland.github.io/Parse
+          helm repo list
+          helm install mongo-parse parse/helm-parse
           kubectl get pods --all-namespaces
-
-          helm version
           helm list
