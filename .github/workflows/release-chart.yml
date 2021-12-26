@@ -12,7 +12,7 @@ jobs:
         uses: rfinland/gh-pages@master
         with:
           token: ${{ secrets.GH_TOKEN }}
-          charts_dir: chart
+          charts_dir: helm-parse
           charts_url: https://rfinland.github.io/Parse
           owner: rfinland
           repository: charts
