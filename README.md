@@ -288,3 +288,4 @@ You should able to see what's happen in github actions on your repo
 For open source projects, GitHub Pages is a great choice to host Helm repositories. 
 We’re using the gh-pages branch to store and serve the packaged charts in this part of article. 
 After each release we undergo a manual process of packaging and pushing the new chart version to the gh-pages branch.
+Lets add an action.
