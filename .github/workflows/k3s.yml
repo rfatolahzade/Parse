@@ -26,6 +26,7 @@ jobs:
           echo "kubeconfig: $KUBECONFIG"
           helm repo add Parse https://rfinland.github.io/Parse
           helm repo list
+          helm search repo Parse
           helm install mongo-parse parse/helm-parse
           kubectl get pods --all-namespaces
           helm list
