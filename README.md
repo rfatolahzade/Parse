@@ -34,11 +34,40 @@ https://rfinland.github.io/Parse/index.html
 https://rfinland.github.io/Parse/
 ```
 You should able to see what's happen in github actions on your repo
-
+Also you can set theme for your page and add a README.md
 For open source projects, GitHub Pages is a great choice to host Helm repositories. 
 We’re using the gh-pages branch to store and serve the packaged charts in this part of article. 
 After each release we undergo a manual process of packaging and pushing the new chart version to the gh-pages branch.
 Lets add an action.
+I added default action named release.yml :
+```bash
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.1.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+```
+
 Run these commands on your machine:
 ```bash
 helm repo add <alias> https://<orgname>.github.io/helm-charts
