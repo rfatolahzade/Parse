@@ -1,5 +1,5 @@
 Run these commands on your machine:
-``bash
+```bash
 helm repo add <alias> https://<orgname>.github.io/helm-charts
 helm repo add Parse https://rfinland.github.io/Parse
 helm repo list
