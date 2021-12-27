@@ -10,10 +10,9 @@ metadata:
   name: server
 spec:
   ports:
-    - name: "1337"
-      port: 1337
+    - protocol: "TCP"
+      port: 80
       targetPort: 1337
-      nodePort: 30001
   selector:
     io.kompose.service: server
   type: NodePort
