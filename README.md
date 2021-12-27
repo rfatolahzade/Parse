@@ -211,7 +211,7 @@ cd helm-parse
 helm install parse .
 kga 
 ```
-# Values.yaml
+##### Values.yaml
 Lets create/empty values.yaml to set our envs:
 ```bash
 cat <<EOF > values.yaml
@@ -330,7 +330,7 @@ helm search repo Parse
 helm install mongo-parse parse/helm-parse
 helm delete mongo-parse
 ```
-
+##### Add ingress 
 Let's add ingress to project:
 ```bash
 touch /charts/Parse/templates/ingress.yaml
