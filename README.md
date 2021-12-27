@@ -249,3 +249,60 @@ helm install parse . -f values.yaml
 kga
 ```
 
+Let's add ingress to project:
+```bash
+touch /charts/Parse/templates/ingress.yaml
+nano /charts/Parse/templates/ingress.yaml
+```
+Paste :
+```bash
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: rfinland.net
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: server
+              port:
+                number: 80
+```
+Take a look to server-services.yaml:
+I changed:
+```bash
+spec:
+  ports:
+    - name: "1337"
+      port: 1337
+      targetPort: 1337
+      nodePort: 30001
+  selector:
+```
+To:
+```bash
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 1337
+  selector:
+```
+The nodePort removed, and port changed to 80
+Apply changes:
+```bash
+cd /Parse/charts/Parse
+helm install parse . -f values.yaml
+kga
+kg ingress
+curl http://rfinland.net/parse/health
+```
+Let's replace mongo with postgres
