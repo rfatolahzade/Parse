@@ -72,6 +72,8 @@ Run these commands on your machine:
 ```bash
 helm repo add <alias> https://<orgname>.github.io/helm-charts
 helm repo add Parse https://rfinland.github.io/Parse
+#The index.yaml file:
+https://rfinland.github.io/Parse/index.yaml
 helm repo list
 helm search repo Parse
 helm install mongo-parse parse/helm-parse
