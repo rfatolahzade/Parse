@@ -302,8 +302,11 @@ Apply changes:
 ```bash
 cd /Parse/charts/Parse
 helm install parse . -f values.yaml
-kga
 kg ingress
+kga
+#On CLUSTER-IP of service/server:
+curl 10.43.125.229/parse/health
+#On our Ingress:
 curl http://rfinland.net/parse/health
 ```
 
