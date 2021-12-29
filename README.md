@@ -302,6 +302,7 @@ Apply changes:
 ```bash
 cd /Parse/charts/Parse
 helm install parse . -f values.yaml
+#helm upgrade parse . -f values.yaml
 kg ingress
 kga
 #On CLUSTER-IP of service/server:
@@ -394,6 +395,7 @@ containers:
 save the file and run helm install contains your values file:	  
 ```bash
 helm install parse . -f values.yaml
+#helm upgrade parse . -f values.yaml
 ```
 ##### Add ingress 
 Let's add ingress to project:
@@ -434,6 +436,7 @@ spec:
 Apply changes:
 ```bash
 helm install parse . -f values.yaml
+#helm upgrade parse . -f values.yaml
 kg ingress
 kga
 #On CLUSTER-IP of service/server:
