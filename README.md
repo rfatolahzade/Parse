@@ -422,8 +422,7 @@ spec:
               port:
                 number: 80
 ```
-Take a look to server-services.yaml:
-Change it as below:
+Take a look to server-services.yaml and Change it as below:
 ```bash
 spec:
   ports:
