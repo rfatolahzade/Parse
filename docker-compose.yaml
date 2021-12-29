@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  server:
+    image: parseplatform/parse-server
+    environment:
+      - PARSE_SERVER_APPLICATION_ID=MyParseApp
+      - PARSE_SERVER_MASTER_KEY=adminadmin
+      - PARSE_SERVER_DATABASE_URI=postgres://postgres:Password@postgres_10/postgres_db
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgre
+      - POSTGRES_DB=postgres_db
+    ports:
+      # short syntax
+      # - 1337:1337
+      # long syntax
+      - target: 1337
+        published: 1337
+        protocol: tcp
+        mode: host
+    depends_on:
+      - postgres
+    volumes:
+      - ./postgres-parse/scripts:/parse-server/scripts
+    entrypoint: ['$PWD/scripts/wait_for_postgres.sh']
+    command: node /parse-server/bin/parse-server
+  postgres:
+    image: postgres:latest
+    volumes:
+    - /srv/postgresql/data:/var/lib/postgresql/data
+    environment:
+     - POSTGRES_PASSWORD=Password
+     - POSTGRES_USER=postgre
+     - POSTGRES_DB=postgres_db
+    ports:
+       # - 5432:5432
+      - target: 5433 # inside container
+        published: 5432
+        protocol: tcp # tcp / udp
+        mode: host # use ingress for swarm load balancing
+
