@@ -1,31 +1,21 @@
 version: "3.7"
 
 services:
-  backend:
+  server:
     image: parseplatform/parse-server
     environment:
       - PARSE_SERVER_APPLICATION_ID=MyParseApp
       - PARSE_SERVER_MASTER_KEY=adminadmin
-      - PARSE_SERVER_DATABASE_URI=postgres://postgres:postgres@database/postgres
+      - PARSE_SERVER_DATABASE_URI=postgres://postgres:postgres@postgres/postgres
     ports:
-      # short syntax
-      # - 1337:1337
-      # long syntax
-      - target: 1337
-        published: 1337
-        protocol: tcp
-        mode: host
+       - 1337:1337
     depends_on:
-      - database
-  database:
+      - postgres
+  postgres:
     image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     ports:
-  #     # - 5432:5432
-     - target: 5433 # inside container
-       published: 5432
-       protocol: tcp # tcp / udp
-       mode: host # use ingress for swarm load balancing
+      - 5432:5432
