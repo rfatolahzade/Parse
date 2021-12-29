@@ -460,6 +460,10 @@ git branch
 git checkout gh-pages
 #Switch to master branch:
 git checkout master
+#Delete branch: When your current branch is main
+git branch -d gh-pages
+#Delete branch remotely
+git push origin --delete gh-pages
 ```
 
 Lets create an index.html file on our new branch:
