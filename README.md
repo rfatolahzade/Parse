@@ -310,6 +310,140 @@ curl 10.43.125.229/parse/health
 curl http://rfinland.net/parse/health
 ```
 
+# Postgres as DB
+in this case our docker-compose file will be:
+```bash
+version: "3.7"
+
+services:
+  server:
+    image: parseplatform/parse-server
+    environment:
+      - PARSE_SERVER_APPLICATION_ID=MyParseApp
+      - PARSE_SERVER_MASTER_KEY=adminadmin
+      - PARSE_SERVER_DATABASE_URI=postgres://postgres:postgres@postgres/postgres
+    ports:
+       - 1337:1337
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+```
+I do the same steps as Mongo:
+```bash
+docker-compose up -d
+curl http://localhost:1337/parse/health
+```
+#### Convert time
+
+```bash
+mkdir postgres
+cd postgres
+cp ../docker-compose.yaml .
+kompose convert
+rm docker-compose.yaml
+kubectl apply -f .
+curl http://<CLUSTER-IP>:1337/parse/health
+```
+#### Helming!
+```bash
+helm create helm-parse-postgres
+rm -r helm-parse-postgres/templates/*
+cd postgres
+cp $PWD/* $PWD/helm-parse-postgres/templates/
+cd helm-parse-postgres
+helm install parse .
+```
+#### Values.yaml
+```bash
+ cat <<EOF > values.yaml
+server:
+ - name: PARSE_SERVER_APPLICATION_ID
+   value: MyParseApp
+ - name: PARSE_SERVER_MASTER_KEY
+   value: adminadmin 
+ - name: PARSE_SERVER_DATABASE_URI
+   value: postgres://postgres:postgres@postgres/postgres
+EOF
+```
+then:
+```bash
+nano /templates/server-deployment.yaml
+```
+modify it as below:
+```bash
+containers:
+        - env:
+            {{- range .Values.server }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }} 
+          image: parseplatform/parse-server
+          name: server
+          ports:
+            - containerPort: 1337
+          resources: {}
+      restartPolicy: Always
+```
+save the file and run helm install contains your values file:	  
+```bash
+helm install parse . -f values.yaml
+```
+##### Add ingress 
+Let's add ingress to project:
+```bash
+touch /templates/ingress.yaml
+nano /templates/ingress.yaml
+```
+Paste :
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: rfinland.net
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: server
+              port:
+                number: 80
+```
+Take a look to server-services.yaml:
+Change it as below:
+```bash
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 1337
+  selector:
+```
+Apply changes:
+```bash
+helm install parse . -f values.yaml
+kg ingress
+kga
+#On CLUSTER-IP of service/server:
+curl 10.43.125.229/parse/health
+#On our Ingress:
+curl http://rfinland.net/parse/health
+```
+
+
 # GitHub Pages
 
 Create a new branch for github pages:
